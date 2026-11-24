@@ -170,8 +170,9 @@ def cmd_process(args):
             producer.flush(10)
             consumer.commit(asynchronous=False)
 
+    deadline = time.time() + args.duration if args.duration else None
     try:
-        while not stop.stopped:
+        while not stop.stopped and (deadline is None or time.time() < deadline):
             msg = consumer.poll(1.0)
             if msg is not None:
                 if msg.error():
@@ -237,6 +238,7 @@ def main(argv=None):
 
     p = sub.add_parser("process")
     p.add_argument("--bootstrap", default=config.KAFKA_BOOTSTRAP_SERVERS)
+    p.add_argument("--duration", type=int, default=0, help="seconds to run (0 = until Ctrl+C)")
     _add_sink_args(p)
     p.set_defaults(func=cmd_process)
 

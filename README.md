@@ -89,7 +89,7 @@ received=26000  valid=25349  invalid=651 (2.5% rejected)  speed_alerts=2670
 Requires Docker Desktop.
 
 ```powershell
-docker compose up -d                       # Kafka on localhost:9092, UI on http://localhost:8080
+docker compose up -d                       # Kafka on localhost:9092, UI on http://localhost:8088
 python -m pipeline create-topics
 python -m pipeline process                 # terminal 1: consumer -> validation -> lake
 python -m pipeline produce --vehicles 12   # terminal 2: live telemetry, 1 ping/s per vehicle

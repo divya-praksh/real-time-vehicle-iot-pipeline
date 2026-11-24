@@ -1,7 +1,7 @@
 # Single-node Kafka (KRaft, no ZooKeeper) + Kafka UI for local development.
 #   docker compose up -d
 #   Kafka for host apps:   localhost:9092
-#   Kafka UI:              http://localhost:8080
+#   Kafka UI:              http://localhost:8088  (override with KAFKA_UI_PORT)
 services:
   kafka:
     image: apache/kafka:3.7.0
@@ -35,7 +35,7 @@ services:
       kafka:
         condition: service_healthy
     ports:
-      - "8080:8080"
+      - "${KAFKA_UI_PORT:-8088}:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:19092
